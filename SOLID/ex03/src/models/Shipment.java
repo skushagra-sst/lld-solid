@@ -1,19 +1,24 @@
 package models;
+
 public class Shipment {
-    private String type;
     private double weightKg;
+    private ShipmentType shipmentType;
 
-    Shipment(String type, double w) {
-        this.type = type;
+    public Shipment(ShipmentType shipmentType, double w) {
         this.weightKg = w;
+        this.shipmentType = shipmentType;
     }
 
-    public String getType() {
-        return type;
+    public double getCost() {
+        return this.shipmentType.getCalculator().calculate(weightKg);
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public ShipmentType getShipmentType() {
+        return this.shipmentType;
+    }
+
+    public void setType(ShipmentType shipmentType) {
+        this.shipmentType = shipmentType;
     }
 
     public double getWeightKg() {
