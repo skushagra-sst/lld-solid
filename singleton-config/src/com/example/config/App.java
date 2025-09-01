@@ -5,8 +5,14 @@ import java.nio.file.Path;
 public class App {
     public static void main(String[] args) throws Exception {
         String path = args.length > 0 ? args[0] : "app.properties";
-        AppSettings.getInstance().loadFromFile(Path.of(path)); // not thread-safe, re-loadable
-        System.out.println("app.name=" + AppSettings.getInstance().get("app.name"));
-        System.out.println("instance=" + System.identityHashCode(AppSettings.getInstance()));
+        AppSettings object1 = AppSettings.getInstance();
+        object1.loadFromFile(Path.of(path));
+        System.out.println("object1 app.name=" + object1.get("app.name"));
+        System.out.println("object1 instance=" + System.identityHashCode(object1));
+
+        AppSettings object2 = AppSettings.getInstance();
+        object2.loadFromFile(Path.of(path));
+        System.out.println("object2 app.name=" + object2.get("app.name"));
+        System.out.println("object2 instance=" + System.identityHashCode(object2));
     }
 }

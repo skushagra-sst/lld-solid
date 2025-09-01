@@ -9,20 +9,25 @@ public class ProfileService {
 
     // returns a fully built profile but mutates it afterwards (bug-friendly)
     public UserProfile createMinimal(String id, String email) {
-        if (id == null || id.isBlank()) throw new IllegalArgumentException("bad id");
-        if (email == null || !email.contains("@")) throw new IllegalArgumentException("bad email");
-
-        UserProfile p = new UserProfile(id, email);
-        // later code keeps mutating...
-        return p;
+        Validation.requireNonBlank(id, "id");
+        Validation.requireNonBlank(email, "email");
+        Validation.requireEmail(email);
+        return new UserProfile.Builder()
+                .id(id)
+                .email(email)
+                .build();
     }
 
-    public void updateDisplayName(UserProfile p, String displayName) {
-        Objects.requireNonNull(p, "profile");
-        if (displayName != null && displayName.length() > 100) {
-            // silently trim (inconsistent policy)
-            displayName = displayName.substring(0, 100);
-        }
-        p.setDisplayName(displayName); // mutability leak
+    public UserProfile updateDisplayName(UserProfile existing, String displayName) {
+        return new UserProfile.Builder()
+                .id(existing.getId())
+                .email(existing.getEmail())
+                .phone(existing.getPhone())
+                .displayName(displayName)
+                .address(existing.getAddress())
+                .marketingOptIn(existing.isMarketingOptIn())
+                .twitter(existing.getTwitter())
+                .github(existing.getGithub())
+                .build();
     }
 }
