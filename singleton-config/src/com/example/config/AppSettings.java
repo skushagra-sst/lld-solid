@@ -24,12 +24,12 @@ public class AppSettings implements Serializable {
         made = true;
     }
 
-    private static class Holder {
+    private static class AppInstance {
         static final AppSettings instance = new AppSettings();
     }
 
     public static AppSettings getInstance() {
-        return Holder.instance;
+        return AppInstance.instance;
     }
 
     public synchronized void loadFromFile(Path file) {
