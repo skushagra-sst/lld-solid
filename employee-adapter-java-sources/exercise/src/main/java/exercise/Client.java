@@ -14,9 +14,11 @@ public class Client {
         new EmployeeDB(202, "Anita", "Sharma", "anita.sharma@contoso.com"));
 
     List<EmployeeLDAP> ldapEntries = List.of(
-        new EmployeeLDAP(Map.of("uid", "301", "givenName", "Wei", "sn", "Zhang", "mail", "wei.zhang@example.org")),
         new EmployeeLDAP(
-            Map.of("uid", "302", "givenName", "Elena", "sn", "Garcia", "mail", "elena.garcia@example.org")));
+            Map.of("uid", "301", "givenName", "Pradyut", "sn", "Mangola", "mail", "pradyut@mangolas.com")),
+        new EmployeeLDAP(
+            Map.of("uid", "302", "givenName", "Manjaari", "sn", "Parkore", "mail",
+                "manjaari.parkor@bauth-bolti.hai")));
 
     List<Employee> unifiedEmployeeList = new ArrayList<>();
 
