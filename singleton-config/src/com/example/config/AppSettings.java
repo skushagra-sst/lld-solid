@@ -6,8 +6,6 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.Properties;
 
-import javax.management.RuntimeErrorException;
-
 /**
  * FAULTY "Singleton": public constructor, getInstance() returns a NEW instance
  * each time,
@@ -15,21 +13,18 @@ import javax.management.RuntimeErrorException;
  * reflection+serialization-friendly.
  */
 public class AppSettings implements Serializable {
-    private static volatile boolean made = false;
+    private static volatile AppSettings instance;
     private final Properties props = new Properties();
 
     private AppSettings() {
-        if (made)
-            throw new RuntimeException("Already done");
-        made = true;
-    }
 
-    private static class AppInstance {
-        static final AppSettings instance = new AppSettings();
     }
 
     public static AppSettings getInstance() {
-        return AppInstance.instance;
+        if (instance != null)
+            return instance;
+        instance = new AppSettings();
+        return instance;
     }
 
     public synchronized void loadFromFile(Path file) {
@@ -40,6 +35,10 @@ public class AppSettings implements Serializable {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private Object readResolve() {
+        return getInstance();
     }
 
     public synchronized String get(String key) {
