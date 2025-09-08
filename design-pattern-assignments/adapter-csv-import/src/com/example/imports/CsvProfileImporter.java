@@ -6,10 +6,12 @@ import java.util.List;
 public class CsvProfileImporter implements ProfileImporter {
     private NaiveCsvReader cvR;
     private ProfileService pS;
+
     public CsvProfileImporter(NaiveCsvReader cvR, ProfileService pS) {
         this.cvR = cvR;
         this.pS = pS;
     }
+
     @Override
     public int importFrom(Path csvFile) {
         List<String[]> rows = cvR.read(csvFile);
@@ -17,7 +19,7 @@ public class CsvProfileImporter implements ProfileImporter {
             String[] row = rows.get(i);
             pS.createProfile(row[0], row[1], row[2]);
         }
-        return rows.size() - 1; 
+        return rows.size() - 1;
     }
-    
+
 }

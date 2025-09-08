@@ -3,7 +3,7 @@ package com.example.report;
 import java.nio.file.Path;
 import java.util.Map;
 
-public class AuditSDK {
+public class ReportBundleFacade {
 
     public static void export(Map<String, Object> data, Path outDir, String fileName) {
         JsonWriter jw = new JsonWriter();
