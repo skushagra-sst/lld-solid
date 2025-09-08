@@ -1,20 +1,23 @@
 package com.example.imports;
 
-import java.io.*; 
-import java.nio.file.*; 
-import java.util.*;
+import java.nio.file.Path;
+import java.util.List;
 
 public class CsvProfileImporter implements ProfileImporter {
-    
-    public CsvProfileImporter( NaiveCsvReader reader , ProfileService service ) {
-        
-
+    private NaiveCsvReader cvR;
+    private ProfileService pS;
+    public CsvProfileImporter(NaiveCsvReader cvR, ProfileService pS) {
+        this.cvR = cvR;
+        this.pS = pS;
     }
     @Override
     public int importFrom(Path csvFile) {
-        // Dummy implementation for demonstration purposes
-        System.out.println("Importing profiles from CSV file: " + csvFile);
-        return 42; // Assume 42 profiles were imported
+        List<String[]> rows = cvR.read(csvFile);
+        for (int i = 1; i < rows.size(); i++) {
+            String[] row = rows.get(i);
+            pS.createProfile(row[0], row[1], row[2]);
+        }
+        return rows.size() - 1; 
     }
     
 }
