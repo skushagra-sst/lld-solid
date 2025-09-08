@@ -8,11 +8,13 @@ public class VideoProcessor {
         Decoder dec = new Decoder();
         FilterEngine fe = new FilterEngine();
         Encoder enc = new Encoder();
+        SharpenAdapter sharpenAdapter = new SharpenAdapter();
 
         Frame[] frames = dec.decode(Path.of(inFile));
         frames = fe.grayscale(frames);
         frames = fe.scale(frames, 0.5);
-        // Legacy filter not used due to odd API
+        frames = sharpenAdapter.sharpen(frames, 0);
+
         Path out = enc.encode(frames, Path.of(outFile));
         System.out.println("Wrote " + out);
     }
